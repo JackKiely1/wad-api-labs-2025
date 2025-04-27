@@ -5,9 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = express.Router(); 
 
+router.get('/', (req, res) => {
+    res.json(tasksData);
+});
+
 // Get task details
 router.get('/:id', (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params
     const task = tasksData.tasks.find(task => task.id === id);
     if (!task) {
         return res.status(404).json({ status: 404, message: 'Task not found' });
@@ -24,7 +28,9 @@ router.post('/', (req, res) => {
         description,
         deadline,
         priority,
-        done
+        done,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
     };
     tasksData.tasks.push(newTask);
     res.status(201).json(newTask);
@@ -40,6 +46,7 @@ router.put('/:id', (req, res) => {
     }
     const updatedTask = { ...tasksData.tasks[taskIndex], ...req.body, id:id };
     tasksData.tasks[taskIndex] = updatedTask;
+    tasksData.tasks[taskIndex].updated_at = new Date().toISOString();
     res.json(updatedTask);
 });
 
@@ -54,9 +61,5 @@ router.delete('/:id', (req, res) => {
     res.status(204).send();
     tasksData.total_results--;
 });
-
-
-
-
 
 export default router;
