@@ -72,9 +72,10 @@ const router = express.Router(); // eslint-disable-line
 
 // Get all tasks
 router.get('/', async (req, res) => {
-    const tasks = await Task.find();
+    const tasks = await Task.find().populate('userId', 'username');
     res.status(200).json(tasks);
 });
+
 
 // create a task
 router.post('/', asyncHandler(async (req, res) => {
@@ -106,6 +107,12 @@ router.delete('/:id', async (req, res) => {
     } else {
         res.status(404).json({ code: 404, msg: 'Unable to find Task' });
     }
+});
+
+// Get a user's tasks
+router.get('/user/:uid', async (req, res) => {
+    const tasks = await Task.find({ userId: `${req.params.uid}`});
+    res.status(200).json(tasks);
 });
 
 
