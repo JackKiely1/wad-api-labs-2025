@@ -8,7 +8,7 @@ import StartPage from "./pages/startPage";
 import ProfilePage from "./pages/profilePage";
 import AuthContextProvider from "./contexts/authContext";
 import ProtectedRoutes from "./protectedRoutes";
-import Header from "./components/SiteHeader";
+import Header from "./components/siteHeader";
 import './App.css';
 
 const queryClient = new QueryClient({
